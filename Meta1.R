@@ -530,14 +530,49 @@ for(a in 1:length(id.list)){
           }else if(curr.correctchoice == prev.correctchoice){
             if(isTRUE((curr.trialdiff == 1) | (curr.trialdiff == 2))){
               ind.choiceincorrect.vec$Diff1[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+              if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
+                ind.earlycorrect.incorrect.Diff1 = ind.earlycorrect.incorrect.Diff1 + 1
+              }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
+                ind.earlyrandom.incorrect.Diff1 = ind.earlyrandom.incorrect.Diff1 + 1
+              }else if(curr.earlyratio < 40){
+                ind.earlyincorrect.incorrect.Diff1 = ind.earlyincorrect.incorrect.Diff1 + 1
+              }
             }else if(isTRUE((curr.trialdiff == 3) | (curr.trialdiff == 4))){
               ind.choiceincorrect.vec$Diff2[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+              if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
+                ind.earlycorrect.incorrect.Diff2 = ind.earlycorrect.incorrect.Diff2 + 1
+              }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
+                ind.earlyrandom.incorrect.Diff2 = ind.earlyrandom.incorrect.Diff2 + 1
+              }else if(curr.earlyratio < 40){
+                ind.earlyincorrect.incorrect.Diff2 = ind.earlyincorrect.incorrect.Diff2 + 1
+              }
             }else if(isTRUE((curr.trialdiff == 5) | (curr.trialdiff == 6))){
               ind.choiceincorrect.vec$Diff3[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+              if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
+                ind.earlycorrect.incorrect.Diff3 = ind.earlycorrect.incorrect.Diff3 + 1
+              }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
+                ind.earlyrandom.incorrect.Diff3 = ind.earlyrandom.incorrect.Diff3 + 1
+              }else if(curr.earlyratio < 40){
+                ind.earlyincorrect.incorrect.Diff3 = ind.earlyincorrect.incorrect.Diff3 + 1
+              }
             }else if(isTRUE((curr.trialdiff == 7) | (curr.trialdiff == 8))){
               ind.choiceincorrect.vec$Diff4[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+              if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
+                ind.earlycorrect.incorrect.Diff4 = ind.earlycorrect.incorrect.Diff4 + 1
+              }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
+                ind.earlyrandom.incorrect.Diff4 = ind.earlyrandom.incorrect.Diff4 + 1
+              }else if(curr.earlyratio < 40){
+                ind.earlyincorrect.incorrect.Diff4 = ind.earlyincorrect.incorrect.Diff4 + 1
+              }
             }else if(isTRUE((curr.trialdiff == 9) | (curr.trialdiff == 10))){
               ind.choiceincorrect.vec$Diff5[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+              if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
+                ind.earlycorrect.incorrect.Diff5 = ind.earlycorrect.incorrect.Diff5 + 1
+              }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
+                ind.earlyrandom.incorrect.Diff5 = ind.earlyrandom.incorrect.Diff5 + 1
+              }else if(curr.earlyratio < 40){
+                ind.earlyincorrect.incorrect.Diff5 = ind.earlyincorrect.incorrect.Diff5 + 1
+              }
             }
             session.incorlat.start = session.incorlat.start + 1
             prev.outcome = "Choice Incorrect"
@@ -580,14 +615,49 @@ for(a in 1:length(id.list)){
         }else if(curr.correctforced == prev.correctforced){
           if(isTRUE((curr.trialdiff == 1) | (curr.trialdiff == 2))){
             ind.forcedincorrect.vec$Diff1[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+            if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
+              ind.earlycorrect.incorrect.Diff1 = ind.earlycorrect.incorrect.Diff1 + 1
+            }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
+              ind.earlyrandom.incorrect.Diff1 = ind.earlyrandom.incorrect.Diff1 + 1
+            }else if(curr.earlyratio < 40){
+              ind.earlyincorrect.incorrect.Diff1 = ind.earlyincorrect.incorrect.Diff1 + 1
+            }
           }else if(isTRUE((curr.trialdiff == 3) | (curr.trialdiff == 4))){
             ind.forcedincorrect.vec$Diff2[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+            if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
+              ind.earlycorrect.incorrect.Diff2 = ind.earlycorrect.incorrect.Diff2 + 1
+            }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
+              ind.earlyrandom.incorrect.Diff2 = ind.earlyrandom.incorrect.Diff2 + 1
+            }else if(curr.earlyratio < 40){
+              ind.earlyincorrect.incorrect.Diff2 = ind.earlyincorrect.incorrect.Diff2 + 1
+            }
           }else if(isTRUE((curr.trialdiff == 5) | (curr.trialdiff == 6))){
             ind.forcedincorrect.vec$Diff3[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+            if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
+              ind.earlycorrect.incorrect.Diff3 = ind.earlycorrect.incorrect.Diff3 + 1
+            }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
+              ind.earlyrandom.incorrect.Diff3 = ind.earlyrandom.incorrect.Diff3 + 1
+            }else if(curr.earlyratio < 40){
+              ind.earlyincorrect.incorrect.Diff3 = ind.earlyincorrect.incorrect.Diff3 + 1
+            }
           }else if(isTRUE((curr.trialdiff == 7) | (curr.trialdiff == 8))){
             ind.forcedincorrect.vec$Diff4[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+            if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
+              ind.earlycorrect.incorrect.Diff4 = ind.earlycorrect.incorrect.Diff4 + 1
+            }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
+              ind.earlyrandom.incorrect.Diff4 = ind.earlyrandom.incorrect.Diff4 + 1
+            }else if(curr.earlyratio < 40){
+              ind.earlyincorrect.incorrect.Diff4 = ind.earlyincorrect.incorrect.Diff4 + 1
+            }
           }else if(isTRUE((curr.trialdiff == 9) | (curr.trialdiff == 10))){
             ind.forcedincorrect.vec$Diff5[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+            if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
+              ind.earlycorrect.incorrect.Diff5 = ind.earlycorrect.incorrect.Diff5 + 1
+            }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
+              ind.earlyrandom.incorrect.Diff5 = ind.earlyrandom.incorrect.Diff5 + 1
+            }else if(curr.earlyratio < 40){
+              ind.earlyincorrect.incorrect.Diff5 = ind.earlyincorrect.incorrect.Diff5 + 1
+            }
           }
           session.incorlat.start = session.incorlat.start + 1
           prev.outcome = 'Forced Incorrect'
