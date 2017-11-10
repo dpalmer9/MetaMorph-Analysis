@@ -6,8 +6,27 @@ raw.data = read.csv(raw.data)
 
 ## Functions ##
 IQR.Vector.Check = function(datalist,IQRRange){
-  for(a in 1:5){
+  new.datalist = list()
+  datalist.length = length(datalist)
+  datalist.elements = sort(names(datalist))
+  add.list = c('Diff1','Diff2','Diff3','Diff4','Diff5')
+  if(length(add.list) > datalist.length){
+   diff.list = setdiff(add.list,datalist.elements)
+   for(a in diff.list){
+     datalist[[a]] = NA
+   }
+  }
+  for(a in datalist.elements){
     datavec = datalist[[a]]
+    if(is.vector(datavec) == FALSE){
+      if(is.na(datavec)){
+        new.datalist[[a]] = NA
+        next
+      }else{
+        new.datalist[[a]] = datavec
+        next
+      }
+    }
     data.iqr = (IQR(datavec,na.rm=TRUE)) * IQRRange
     data.quant = quantile(datavec,na.rm=TRUE)
     data.25 = as.numeric(data.quant[2])
@@ -15,9 +34,9 @@ IQR.Vector.Check = function(datalist,IQRRange){
     datavec[datavec > (data.75 + data.iqr)] = NA
     datavec[datavec < (data.25 - data.iqr)] = NA
     datavec <- datavec[!is.na(datavec)]
-    datalist[[a]] = datavec
+    new.datalist[[a]] = datavec
   }
-  return(datalist)
+  return(new.datalist)
 }
 
 # Accuracy & Decline #
@@ -391,6 +410,8 @@ for(a in 1:length(id.list)){
   ind.choicecorrect.vec = IQR.Vector.Check(ind.choicecorrect.vec,2)
   ind.choiceincorrect.vec = IQR.Vector.Check(ind.choiceincorrect.vec,2)
   ind.choicereward.vec = IQR.Vector.Check(ind.choicereward.vec,2)
+  
+  add.list = c('Diff1','Diff2','Diff3','Diff3','Diff5')
   for(b in 1:5){
     lat.mean.data[a,(1 + b)] = mean(ind.metachoicetest.vec[[b]], na.rm=TRUE)
     lat.mean.data[a,(6 + b)] = mean(ind.metachoicedecline.vec[[b]], na.rm=TRUE)

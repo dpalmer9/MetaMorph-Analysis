@@ -6,7 +6,7 @@ raw.data.early[ ,1] = as.character(raw.data.early[ ,1])
 
 ## Establish Contingency Data ##
 id.list = as.character(unique(raw.data.early[ ,1]))
-measure.list = c('Metacognitive Choice Test Latency', 'Metacognitive Choice Decline Latency', 'Metacognitive Forced Test Latency', 'Forced Correct Latency', 'Forced Incorrect Latency', 'Forced Reward Latency', 'Choice Correct Latency', 'Choice Incorrect Latency', 'Choice Reward Latency', 'Previous Correct Decline', 'Previously Incorrect Decline', 'Early Random Decline', 'Early Correct Decline', 'Early Incorrect Decline', 'Early Random Accuracy', 'Early Correct Accuracy', 'Early Incorrect Accuracy')
+measure.list = c('Metacognitive Choice Test Latency', 'Metacognitive Choice Decline Latency', 'Metacognitive Forced Test Latency', 'Forced Correct Latency', 'Forced Incorrect Latency', 'Forced Reward Latency', 'Choice Correct Latency', 'Choice Incorrect Latency', 'Choice Reward Latency', 'Previous Correct Decline', 'Previously Incorrect Decline', 'Early Random Decline', 'Early Correct Decline', 'Early Incorrect Decline', 'Early Random Accuracy', 'Early Correct Accuracy', 'Early Incorrect Accuracy','Early Random Test Latency','Early Correct Test Latency','Early Incorrect Test Latency','Early Random Decline Latency','Early Correct Decline Latency','Early Incorrect Decline Latency','Future Correct Test Latency','Future Incorrect Test Latency','Future Correct Early Random Test Latency', 'Future Correct Early Correct Test Latency', 'Future Correct Early Incorrect Test Latency', 'Future Incorrect Early Random Test Latency', 'Future Incorrect Early Correct Test Latency', 'Future Incorrect Early Incorrect Test Latency')
 col.list = c()
 col.list.pos = 1
 for(a in 1:length(measure.list)){
@@ -17,7 +17,7 @@ for(a in 1:length(measure.list)){
 }
 lat.mean.data = as.data.frame(matrix(nrow=length(id.list),ncol=(1 + length(col.list))))
 colnames(lat.mean.data)[1] = "Animal.ID"
-colnames(lat.mean.data)[2:86] = col.list
+colnames(lat.mean.data)[2:156] = col.list
 
 start.col.corrlat = which( colnames(raw.data.early)=="Correct.Response.Latency..1." )
 start.col.incorlat = which( colnames(raw.data.early)=="Incorrect.Response.Latency..1." )
@@ -71,6 +71,22 @@ for(a in 1:length(id.list)){
   ind.metachoicetest.futurecorrect.vec = list()
   ind.metachoicetest.futureincorrect.vec = list()
   
+  ind.metachoicedecline.earlyrandom.futurecorrect.vec = list()
+  ind.metachoicedecline.earlycorrect.futurecorrect.vec = list()
+  ind.metachoicedecline.earlyincorrect.futurecorrect.vec = list()
+  ind.metachoicetest.earlyrandom.futurecorrect.vec = list()
+  ind.metachoicetest.earlycorrect.futurecorrect.vec = list()
+  ind.metachoicetest.earlyincorrect.futurecorrect.vec = list()
+  
+  ind.metachoicedecline.earlyrandom.futureincorrect.vec = list()
+  ind.metachoicedecline.earlycorrect.futureincorrect.vec = list()
+  ind.metachoicedecline.earlyincorrect.futureincorrect.vec = list()
+  ind.metachoicetest.earlyrandom.futureincorrect.vec = list()
+  ind.metachoicetest.earlycorrect.futureincorrect.vec = list()
+  ind.metachoicetest.earlyincorrect.futureincorrect.vec = list()
+  
+  ind.metachoicetest.futurecorrect.vec = list()
+  ind.metachoicetest.futureincorrect.vec = list()
   
   ind.earlyrandom.decline.Diff1 = 0
   ind.earlyrandom.test.Diff1 = 0
@@ -238,7 +254,7 @@ for(a in 1:length(id.list)){
       
       curr.earlyratio = ((curr.earlycorrect) / ((curr.earlycorrect) + (curr.earlyincorrect))) * 100
       if((curr.earlycorrect == 0) & (curr.earlyincorrect == 0)){
-        curr.earlyratio = NA
+        curr.earlyratio = 50
       }
       
       curr.spacer = c + spacer.multiplier
@@ -471,58 +487,77 @@ for(a in 1:length(id.list)){
               ind.metachoicetest.earlyincorrect.vec$Diff5[curr.spacer] = ind.data.lat[b,session.metalat.start]
             }
           }
-          session.metalat.start = session.metalat.start + 1
           
           if(curr.correctchoice > prev.correctchoice){
             if(isTRUE((curr.trialdiff == 1) | (curr.trialdiff == 2))){
               ind.choicecorrect.vec$Diff1[curr.spacer] = ind.data.lat[b,session.corlat.start]
               ind.choicereward.vec$Diff1[curr.spacer] = ind.data.lat[b,session.rewlat.start]
+              ind.metachoicetest.futurecorrect.vec$Diff1 = ind.data.lat[b,session.metalat.start]
               if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
                 ind.earlycorrect.correct.Diff1 = ind.earlycorrect.correct.Diff1 + 1
+                ind.metachoicetest.earlycorrect.futurecorrect.vec$Diff1 = ind.data.lat[b,session.metalat.start]
               }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
                 ind.earlyrandom.correct.Diff1 = ind.earlyrandom.correct.Diff1 + 1
+                ind.metachoicetest.earlyrandom.futurecorrect.vec$Diff1 = ind.data.lat[b,session.metalat.start]
               }else if(curr.earlyratio < 40){
                 ind.earlyincorrect.correct.Diff1 = ind.earlyincorrect.correct.Diff1 + 1
+                ind.metachoicetest.earlyincorrect.futurecorrect.vec$Diff1 = ind.data.lat[b,session.metalat.start]
               }
             }else if(isTRUE((curr.trialdiff == 3) | (curr.trialdiff == 4))){
               ind.choicecorrect.vec$Diff2[curr.spacer] = ind.data.lat[b,session.corlat.start]
               ind.choicereward.vec$Diff2[curr.spacer] = ind.data.lat[b,session.rewlat.start]
+              ind.metachoicetest.futurecorrect.vec$Diff2 = ind.data.lat[b,session.metalat.start]
               if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
                 ind.earlycorrect.correct.Diff2 = ind.earlycorrect.correct.Diff2 + 1
+                ind.metachoicetest.earlycorrect.futurecorrect.vec$Diff2 = ind.data.lat[b,session.metalat.start]
               }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
                 ind.earlyrandom.correct.Diff2 = ind.earlyrandom.correct.Diff2 + 1
+                ind.metachoicetest.earlyrandom.futurecorrect.vec$Diff2 = ind.data.lat[b,session.metalat.start]
               }else if(curr.earlyratio < 40){
                 ind.earlyincorrect.correct.Diff2 = ind.earlyincorrect.correct.Diff2 + 1
+                ind.metachoicetest.earlyincorrect.futurecorrect.vec$Diff2 = ind.data.lat[b,session.metalat.start]
               }
             }else if(isTRUE((curr.trialdiff == 5) | (curr.trialdiff == 6))){
               ind.choicecorrect.vec$Diff3[curr.spacer] = ind.data.lat[b,session.corlat.start]
               ind.choicereward.vec$Diff3[curr.spacer] = ind.data.lat[b,session.rewlat.start]
+              ind.metachoicetest.futurecorrect.vec$Diff3 = ind.data.lat[b,session.metalat.start]
               if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
                 ind.earlycorrect.correct.Diff3 = ind.earlycorrect.correct.Diff3 + 1
+                ind.metachoicetest.earlycorrect.futurecorrect.vec$Diff3 = ind.data.lat[b,session.metalat.start]
               }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
                 ind.earlyrandom.correct.Diff3 = ind.earlyrandom.correct.Diff3 + 1
+                ind.metachoicetest.earlyrandom.futurecorrect.vec$Diff3 = ind.data.lat[b,session.metalat.start]
               }else if(curr.earlyratio < 40){
                 ind.earlyincorrect.correct.Diff3 = ind.earlyincorrect.correct.Diff3 + 1
+                ind.metachoicetest.earlyincorrect.futurecorrect.vec$Diff3 = ind.data.lat[b,session.metalat.start]
               }
             }else if(isTRUE((curr.trialdiff == 7) | (curr.trialdiff == 8))){
               ind.choicecorrect.vec$Diff4[curr.spacer] = ind.data.lat[b,session.corlat.start]
               ind.choicereward.vec$Diff4[curr.spacer] = ind.data.lat[b,session.rewlat.start]
+              ind.metachoicetest.futurecorrect.vec$Diff4 = ind.data.lat[b,session.metalat.start]
               if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
                 ind.earlycorrect.correct.Diff4 = ind.earlycorrect.correct.Diff4 + 1
+                ind.metachoicetest.earlycorrect.futurecorrect.vec$Diff4 = ind.data.lat[b,session.metalat.start]
               }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
                 ind.earlyrandom.correct.Diff4 = ind.earlyrandom.correct.Diff4 + 1
+                ind.metachoicetest.earlyrandom.futurecorrect.vec$Diff4 = ind.data.lat[b,session.metalat.start]
               }else if(curr.earlyratio < 40){
                 ind.earlyincorrect.correct.Diff4 = ind.earlyincorrect.correct.Diff4 + 1
+                ind.metachoicetest.earlyincorrect.futurecorrect.vec$Diff4 = ind.data.lat[b,session.metalat.start]
               }
             }else if(isTRUE((curr.trialdiff == 9) | (curr.trialdiff == 10))){
               ind.choicecorrect.vec$Diff5[curr.spacer] = ind.data.lat[b,session.corlat.start]
               ind.choicereward.vec$Diff5[curr.spacer] = ind.data.lat[b,session.rewlat.start]
+              ind.metachoicetest.futurecorrect.vec$Diff5 = ind.data.lat[b,session.metalat.start]
               if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
                 ind.earlycorrect.correct.Diff5 = ind.earlycorrect.correct.Diff5 + 1
+                  ind.metachoicetest.earlycorrect.futurecorrect.vec$Diff5 = ind.data.lat[b,session.metalat.start]
               }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
                 ind.earlyrandom.correct.Diff5 = ind.earlyrandom.correct.Diff5 + 1
+                ind.metachoicetest.earlyrandom.futurecorrect.vec$Diff5 = ind.data.lat[b,session.metalat.start]
               }else if(curr.earlyratio < 40){
                 ind.earlyincorrect.correct.Diff5 = ind.earlyincorrect.correct.Diff5 + 1
+                ind.metachoicetest.earlyincorrect.futurecorrect.vec$Diff5 = ind.data.lat[b,session.metalat.start]
               }
             }
             session.corlat.start = session.corlat.start + 1
@@ -531,53 +566,74 @@ for(a in 1:length(id.list)){
           }else if(curr.correctchoice == prev.correctchoice){
             if(isTRUE((curr.trialdiff == 1) | (curr.trialdiff == 2))){
               ind.choiceincorrect.vec$Diff1[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+              ind.metachoicetest.futureincorrect.vec$Diff1 = ind.data.lat[b,session.metalat.start]
               if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
                 ind.earlycorrect.incorrect.Diff1 = ind.earlycorrect.incorrect.Diff1 + 1
+                ind.metachoicetest.earlycorrect.futureincorrect.vec$Diff1 = ind.data.lat[b,session.metalat.start]
               }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
                 ind.earlyrandom.incorrect.Diff1 = ind.earlyrandom.incorrect.Diff1 + 1
+                ind.metachoicetest.earlyrandom.futureincorrect.vec$Diff1 = ind.data.lat[b,session.metalat.start]
               }else if(curr.earlyratio < 40){
                 ind.earlyincorrect.incorrect.Diff1 = ind.earlyincorrect.incorrect.Diff1 + 1
+                ind.metachoicetest.earlyincorrect.futureincorrect.vec$Diff1 = ind.data.lat[b,session.metalat.start]
               }
             }else if(isTRUE((curr.trialdiff == 3) | (curr.trialdiff == 4))){
               ind.choiceincorrect.vec$Diff2[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+              ind.metachoicetest.futureincorrect.vec$Diff2 = ind.data.lat[b,session.metalat.start]
               if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
                 ind.earlycorrect.incorrect.Diff2 = ind.earlycorrect.incorrect.Diff2 + 1
+                ind.metachoicetest.earlycorrect.futureincorrect.vec$Diff2 = ind.data.lat[b,session.metalat.start]
               }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
                 ind.earlyrandom.incorrect.Diff2 = ind.earlyrandom.incorrect.Diff2 + 1
+                ind.metachoicetest.earlyrandom.futureincorrect.vec$Diff2 = ind.data.lat[b,session.metalat.start]
               }else if(curr.earlyratio < 40){
                 ind.earlyincorrect.incorrect.Diff2 = ind.earlyincorrect.incorrect.Diff2 + 1
+                ind.metachoicetest.earlyincorrect.futureincorrect.vec$Diff2 = ind.data.lat[b,session.metalat.start]
               }
             }else if(isTRUE((curr.trialdiff == 5) | (curr.trialdiff == 6))){
               ind.choiceincorrect.vec$Diff3[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+              ind.metachoicetest.futureincorrect.vec$Diff3 = ind.data.lat[b,session.metalat.start]
               if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
                 ind.earlycorrect.incorrect.Diff3 = ind.earlycorrect.incorrect.Diff3 + 1
+                ind.metachoicetest.earlycorrect.futureincorrect.vec$Diff3 = ind.data.lat[b,session.metalat.start]
               }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
                 ind.earlyrandom.incorrect.Diff3 = ind.earlyrandom.incorrect.Diff3 + 1
+                ind.metachoicetest.earlyrandom.futureincorrect.vec$Diff3 = ind.data.lat[b,session.metalat.start]
               }else if(curr.earlyratio < 40){
                 ind.earlyincorrect.incorrect.Diff3 = ind.earlyincorrect.incorrect.Diff3 + 1
+                ind.metachoicetest.earlyincorrect.futureincorrect.vec$Diff3 = ind.data.lat[b,session.metalat.start]
               }
             }else if(isTRUE((curr.trialdiff == 7) | (curr.trialdiff == 8))){
               ind.choiceincorrect.vec$Diff4[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+              ind.metachoicetest.futureincorrect.vec$Diff4 = ind.data.lat[b,session.metalat.start]
               if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
                 ind.earlycorrect.incorrect.Diff4 = ind.earlycorrect.incorrect.Diff4 + 1
+                ind.metachoicetest.earlycorrect.futureincorrect.vec$Diff4 = ind.data.lat[b,session.metalat.start]
               }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
                 ind.earlyrandom.incorrect.Diff4 = ind.earlyrandom.incorrect.Diff4 + 1
+                ind.metachoicetest.earlyrandom.futureincorrect.vec$Diff4 = ind.data.lat[b,session.metalat.start]
               }else if(curr.earlyratio < 40){
                 ind.earlyincorrect.incorrect.Diff4 = ind.earlyincorrect.incorrect.Diff4 + 1
+                ind.metachoicetest.earlyincorrect.futureincorrect.vec$Diff4 = ind.data.lat[b,session.metalat.start]
               }
             }else if(isTRUE((curr.trialdiff == 9) | (curr.trialdiff == 10))){
               ind.choiceincorrect.vec$Diff5[curr.spacer] = ind.data.lat[b,session.incorlat.start]
+              ind.metachoicetest.futureincorrect.vec$Diff5 = ind.data.lat[b,session.metalat.start]
               if((curr.earlyratio == Inf) | (curr.earlyratio > 60)){
                 ind.earlycorrect.incorrect.Diff5 = ind.earlycorrect.incorrect.Diff5 + 1
+                ind.metachoicetest.earlycorrect.futureincorrect.vec$Diff5 = ind.data.lat[b,session.metalat.start]
               }else if((curr.earlyratio >= 40) & (curr.earlyratio <= 60)){
                 ind.earlyrandom.incorrect.Diff5 = ind.earlyrandom.incorrect.Diff5 + 1
+                ind.metachoicetest.earlyrandom.futureincorrect.vec$Diff5 = ind.data.lat[b,session.metalat.start]
               }else if(curr.earlyratio < 40){
                 ind.earlyincorrect.incorrect.Diff5 = ind.earlyincorrect.incorrect.Diff5 + 1
+                ind.metachoicetest.earlyincorrect.futureincorrect.vec$Diff5 = ind.data.lat[b,session.metalat.start]
               }
             }
             session.incorlat.start = session.incorlat.start + 1
             prev.outcome = "Choice Incorrect"
           }
+          session.metalat.start = session.metalat.start + 1
         }
       }else if(curr.trialtype == 2){
         if(isTRUE((curr.trialdiff == 1) | (curr.trialdiff == 2))){
@@ -710,6 +766,22 @@ for(a in 1:length(id.list)){
   ind.choicecorrect.vec = IQR.Vector.Check(ind.choicecorrect.vec,2)
   ind.choiceincorrect.vec = IQR.Vector.Check(ind.choiceincorrect.vec,2)
   ind.choicereward.vec = IQR.Vector.Check(ind.choicereward.vec,2)
+  ind.metachoicetest.earlycorrect.vec = IQR.Vector.Check(ind.metachoicetest.earlycorrect.vec,2)
+  ind.metachoicetest.earlyincorrect.vec = IQR.Vector.Check(ind.metachoicetest.earlyincorrect.vec,2)
+  ind.metachoicetest.earlyrandom.vec = IQR.Vector.Check(ind.metachoicetest.earlyrandom.vec,2)
+  ind.metachoicedecline.earlycorrect.vec = IQR.Vector.Check(ind.metachoicedecline.earlycorrect.vec,2)
+  ind.metachoicedecline.earlyincorrect.vec = IQR.Vector.Check(ind.metachoicedecline.earlyincorrect.vec,2)
+  ind.metachoicedecline.earlyrandom.vec = IQR.Vector.Check(ind.metachoicedecline.earlyrandom.vec,2)
+  ind.metachoicetest.futurecorrect.vec = IQR.Vector.Check(ind.metachoicetest.futurecorrect.vec,2)
+  ind.metachoicetest.futureincorrect.vec = IQR.Vector.Check(ind.metachoicetest.futureincorrect.vec,2)
+  ind.metachoicetest.earlyrandom.futurecorrect.vec = IQR.Vector.Check(ind.metachoicetest.earlyrandom.futurecorrect.vec,2)
+  ind.metachoicetest.earlycorrect.futurecorrect.vec = IQR.Vector.Check(ind.metachoicetest.earlycorrect.futurecorrect.vec,2)
+  ind.metachoicetest.earlyincorrect.futurecorrect.vec = IQR.Vector.Check(ind.metachoicetest.earlyincorrect.futurecorrect.vec,2)
+  ind.metachoicetest.earlyrandom.futureincorrect.vec = IQR.Vector.Check(ind.metachoicetest.earlyrandom.futureincorrect.vec,2)
+  ind.metachoicetest.earlycorrect.futureincorrect.vec = IQR.Vector.Check(ind.metachoicetest.earlycorrect.futureincorrect.vec,2)
+  ind.metachoicetest.earlyincorrect.futureincorrect.vec = IQR.Vector.Check(ind.metachoicetest.earlyincorrect.futureincorrect.vec,2)
+  
+  
   for(b in 1:5){
     lat.mean.data[a,(1 + b)] = mean(ind.metachoicetest.vec[[b]], na.rm=TRUE)
     lat.mean.data[a,(6 + b)] = mean(ind.metachoicedecline.vec[[b]], na.rm=TRUE)
@@ -769,4 +841,21 @@ for(a in 1:length(id.list)){
   lat.mean.data[a,84] = ((ind.earlyincorrect.correct.Diff3) / (ind.earlyincorrect.incorrect.Diff3 + ind.earlyincorrect.correct.Diff3)) * 100
   lat.mean.data[a,85] = ((ind.earlyincorrect.correct.Diff4) / (ind.earlyincorrect.incorrect.Diff4 + ind.earlyincorrect.correct.Diff4)) * 100
   lat.mean.data[a,86] = ((ind.earlyincorrect.correct.Diff5) / (ind.earlyincorrect.incorrect.Diff5 + ind.earlyincorrect.correct.Diff5)) * 100
+  
+  for(b in 1:5){
+    lat.mean.data[a,(86 + b)] = mean(ind.metachoicetest.earlyrandom.vec[[b]], na.rm=TRUE)
+    lat.mean.data[a,(91 + b)] = mean(ind.metachoicetest.earlycorrect.vec[[b]], na.rm=TRUE)
+    lat.mean.data[a,(96 + b)] = mean(ind.metachoicetest.earlyincorrect.vec[[b]], na.rm=TRUE)
+    lat.mean.data[a,(101 + b)] = mean(ind.metachoicedecline.earlyrandom.vec[[b]], na.rm=TRUE)
+    lat.mean.data[a,(106 + b)] = mean(ind.metachoicedecline.earlycorrect.vec[[b]], na.rm=TRUE)
+    lat.mean.data[a,(111 + b)] = mean(ind.metachoicedecline.earlyincorrect.vec[[b]], na.rm=TRUE)
+    lat.mean.data[a,(116 + b)] = mean(ind.metachoicetest.futurecorrect.vec[[b]], na.rm=TRUE)
+    lat.mean.data[a,(121 + b)] = mean(ind.metachoicetest.futureincorrect.vec[[b]], na.rm=TRUE)
+    lat.mean.data[a,(126 + b)] = mean(ind.metachoicetest.earlyrandom.futurecorrect.vec[[b]], na.rm=TRUE)
+    lat.mean.data[a,(131 + b)] = mean(ind.metachoicetest.earlycorrect.futurecorrect.vec[[b]], na.rm=TRUE)
+    lat.mean.data[a,(136 + b)] = mean(ind.metachoicetest.earlyincorrect.futurecorrect.vec[[b]], na.rm=TRUE)
+    lat.mean.data[a,(141 + b)] = mean(ind.metachoicetest.earlyrandom.futureincorrect.vec[[b]], na.rm=TRUE)
+    lat.mean.data[a,(146 + b)] = mean(ind.metachoicetest.earlycorrect.futureincorrect.vec[[b]], na.rm=TRUE)
+    lat.mean.data[a,(151 + b)] = mean(ind.metachoicetest.earlyincorrect.futureincorrect.vec[[b]], na.rm=TRUE)
+  }
 }
