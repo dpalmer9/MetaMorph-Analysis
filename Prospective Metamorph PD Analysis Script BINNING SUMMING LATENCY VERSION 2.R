@@ -49,7 +49,7 @@ acc.dec.start = which( colnames(raw.data)=="Main.Evaluation...Condition" )
 acc.dec.end =  which( colnames(raw.data)=="Total.Choice.Measures.Difficulty...Choice.Trial...Test.Chosen...Difficulty.10" )
 raw.data.accdec = raw.data[ ,c(1:2,acc.dec.start:acc.dec.end)]
 id.list = as.character(unique(raw.data.accdec$Animal.ID))
-sum.data = as.data.frame(matrix(nrow=0,ncol=ncol(raw.data)))
+sum.data = as.data.frame(matrix(nrow=0,ncol=ncol(raw.data.accdec)))
 colnames(sum.data) = colnames(raw.data.accdec)
 for(a in 1:length(id.list)){
   temp.data = raw.data.accdec[which(raw.data.accdec[ ,1] == id.list[a]), ]
@@ -84,27 +84,10 @@ for(a in 1:5){
   curr.start.add = curr.start.add + 2
   curr.end.add = curr.end.add + 1
 }
-summed.data = cbind(raw.data[ ,c(1:14)],merge.data)
+summed.data = cbind(sum.data[ ,c(1:14)],merge.data)
 
 ## Sum Sessions Together ##
-summed.agg.list = list(summed.data$Animal.ID)
-summed.agg.mean = aggregate(summed.data[ ,c(1,4,6:14)], by=summed.agg.list,FUN=mean,na.rm=TRUE)
-summed.agg.mean[ ,2] = summed.agg.mean[ ,1]
-summed.agg.mean[ ,1] = NULL
-summed.raw.sum = summed.data[ ,c(1,15:39)]
-summed.agg.sum = as.data.frame(matrix(nrow=length(id.list),ncol=ncol(summed.raw.sum)))
-colnames(summed.agg.sum) = colnames(summed.raw.sum)
-for(a in 1:length(id.list)){
-  #temp.data = as.data.frame(matrix(nrow=1,ncol=ncol(summed.data)))
-  curr.id = id.list[a]
-  curr.data = summed.raw.sum[which(summed.raw.sum[ ,1] == curr.id), ]
-  summed.agg.sum[a,1] = curr.id
-  for(b in 2:ncol(summed.raw.sum)){
-    summed.agg.sum[a,b] = sum(as.vector(as.numeric(curr.data[ ,b])), na.rm=TRUE)
-  }
-}
-
-sum.agg.data = cbind(summed.agg.mean,summed.agg.sum[ ,2:ncol(summed.agg.sum)])
+sum.agg.data = summed.data[ ,c(1,4,6:39)]
 
 ## Calculate Accuracies & Decline ## 
 calc.data = as.data.frame(matrix(nrow=nrow(sum.agg.data),ncol=18))
